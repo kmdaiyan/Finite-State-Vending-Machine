@@ -1,0 +1,4503 @@
+// Code your design here
+module Project_Vending(clk,reset,tk_5,tk_10,tk_20,tk_50,tk_100,w,c,           return_tk_5,return_tk_10,return_tk_20,return_tk_50,return_tk_100,product_select,delivery,next_state,current_state,guest,user,user_pin,manual,digital,u1_b,u2_b,u3_b,u4_b,u5_b,u6_b,u7_b);
+  
+  input clk,reset,tk_5,tk_10,tk_20,tk_50,tk_100,w,c,guest,user,manual,digital;
+  input[15:0]user_pin;
+  output return_tk_5,return_tk_10,return_tk_20,return_tk_50,return_tk_100,product_select,delivery;
+  
+  output [2:0] next_state;
+  output [2:0]current_state;
+  output reg [15:0]u1_b,u2_b,u3_b,u4_b,u5_b,u6_b,u7_b;
+
+  
+  initial
+    begin
+      u1_b=16'd100;
+      u2_b=16'd45;
+      u3_b=16'd56;
+      u4_b=16'd72;
+      u5_b=16'd10;
+      u6_b=16'd9;
+      u7_b=16'd90;
+  
+  end
+		
+		parameter S0=   3'd0;
+		parameter S5=   3'd1;
+		parameter S10=  3'd2;
+		parameter S15=  3'd3;
+		parameter S20=  3'd4;
+		parameter S50=  3'd5;
+		parameter S100= 3'd6;
+        parameter u1_pin=16'd1234;
+        parameter u2_pin=16'd2345;
+        parameter u3_pin=16'd7895;
+        parameter u4_pin=16'd6789;
+        parameter u5_pin=16'd5432;
+        parameter u6_pin=16'd8865;
+        parameter u7_pin=16'd4005;
+        
+        	  
+  reg [2:0]current_state;
+  reg [2:0]next_state;	
+ 
+  reg return_tk_5,return_tk_10,return_tk_20,return_tk_50,return_tk_100,product_select,delivery;
+		
+  always@(negedge reset or posedge clk)
+		begin
+          if(guest==1)
+            begin
+          if(reset==0)
+			begin
+			 current_state=S0;
+             next_state=S0;
+              {return_tk_5,return_tk_10,return_tk_20,return_tk_50,return_tk_100,product_select,delivery}=7'b0000000;
+			end
+			else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                case(current_state)
+                 
+                S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   		  	return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    			return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;				   
+                    			end
+			   			
+			        else if(tk_50==1)
+					begin
+                    			next_state=S50;  
+                   			return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    			else if(tk_100==1)
+                    			begin
+                    			next_state=S100;
+                    			return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+                    			end
+                  
+                    			else
+                    			begin
+                    			next_state=S0; 
+                    			return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+                   			end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    		return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    			else if(tk_10==1)
+				    	begin
+					next_state=S15;
+				   	return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    			else if(tk_20==1)
+				    	begin
+					next_state=S0;
+				    	return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   			else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    	return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    			else if(tk_100==1)
+				    	begin
+					next_state=S0;
+				    	return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    			return_tk_5=1;
+                    			return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    	return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    			return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    			else if(tk_20==1)
+					begin
+					next_state=S20;
+                   			return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+					
+       S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=1;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+              end 
+              
+              
+             else if(c)
+                begin
+                case(current_state)
+                   
+				S0: if(tk_5==1)
+					begin
+					next_state=S5;
+        			return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;   
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+       			    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;   
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20;
+       				return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;   
+					end
+						
+					else if(tk_50==1)
+					begin
+                    next_state=S50;  
+       				return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1;   
+					end
+						
+					else if(tk_100==1)
+					begin
+					next_state=S100;
+       				return_tk_5=1;
+					return_tk_10=1;
+					return_tk_20=1;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+                  
+					else
+					begin
+					next_state=S0;
+        			return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;   
+                    end
+						
+				S5: if(tk_5==1)
+					begin
+				    next_state=S10;
+       				return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0; 
+					end
+						
+                 	else if(tk_10==1)
+					begin
+		    		next_state=S15;
+       				return_tk_5=0;
+				    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+					
+                    else if(tk_20==1)
+					begin
+		    		next_state=S0;
+       				return_tk_5=0;
+				    return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+                  
+                    else if(tk_50==1)
+					begin
+		    		next_state=S0;
+       				return_tk_5=1;
+				    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0; 
+					end
+                  
+                    else if(tk_100==1)
+					begin
+		    		next_state=S0;
+       				return_tk_5=1;
+				    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0; 
+                    end
+                  
+					else
+					begin
+					next_state=S0;
+                    return_tk_5=1; 
+                    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+       				return_tk_5=0;
+				    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+      				return_tk_5=1;
+				    return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+      				return_tk_5=1;
+				    return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=1;
+					delivery=1; 
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+      				return_tk_5=0;
+				    return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0; 
+					end
+                  
+                    else if(tk_100==1)
+				 	begin
+					next_state=S0;
+      				return_tk_5=0;
+				    return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0; 
+					end
+					
+					else
+					begin
+					next_state=S10;
+       				return_tk_5=0;
+				    return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0; 
+					end
+					
+					
+  S15,S20,S50,S100: if(tk_5==1)
+					begin
+					next_state=S0;
+                    return_tk_5=1;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=1;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=1;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+                  else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=1;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=1;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+		    default: begin
+					next_state=S0;
+    			    return_tk_5=0;
+					return_tk_10=0;
+					return_tk_20=0;
+					return_tk_50=0;
+					return_tk_100=0;
+					product_select=0;
+					delivery=0;
+					end
+				   
+						
+				endcase
+                end //c_guest
+			end //reset_guest
+            end//guest
+          if (user==1 && user_pin==u1_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u1_b=u1_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u1_b=u1_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u1_b=u1_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u1_b=u1_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u1_b=u1_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u1_b=u1_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u1_b=u1_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u1_b=u1_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u1_b=u1_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u1_b=u1_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u1_b=u1_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u1_b=u1_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u1_b=u1_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u1_b=u1_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u1_b=u1_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u1_b=u1_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u1_b=u1_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u1_b=u1_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u1_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u1_b>=20)
+                        begin
+                            assign u1_b=u1_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u1_b=u1_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u1_b=u1_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u1_b=u1_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u1_b=u1_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u1_b=u1_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u1_b=u1_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u1_b=u1_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u1_b=u1_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u1_b=u1_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u1_b=u1_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u1_b=u1_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u1_b=u1_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u1_b=u1_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u1_b=u1_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u1_b=u1_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u1_b=u1_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u1_b>=15)
+                        begin
+                            assign u1_b=u1_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u1_b=u1_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+            end //reset
+          end//if user
+          
+      if (user==1 && user_pin==u2_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u2_b=u2_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u2_b=u2_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u2_b=u2_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u2_b=u2_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u2_b=u2_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u2_b=u2_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u2_b=u2_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u2_b=u2_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u2_b=u2_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u2_b=u2_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u2_b=u2_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u2_b=u2_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u2_b=u2_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u2_b=u2_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u2_b=u2_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u2_b=u2_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u2_b=u2_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u2_b=u2_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u2_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u2_b>=20)
+                        begin
+                            assign u2_b=u2_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u2_b=u2_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u2_b=u2_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u2_b=u2_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u2_b=u2_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u2_b=u2_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u2_b=u2_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u2_b=u2_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u2_b=u2_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u2_b=u2_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u2_b=u2_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u2_b=u2_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u2_b=u2_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u2_b=u2_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u2_b=u2_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u2_b=u2_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u2_b=u2_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u2_b>=15)
+                        begin
+                            assign u2_b=u2_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u2_b=u2_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+          end // if user
+          if (user==1 && user_pin==u3_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u3_b=u3_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u3_b=u3_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u3_b=u3_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u3_b=u3_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u3_b=u3_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u3_b=u3_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u3_b=u3_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u3_b=u3_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u3_b=u3_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u3_b=u3_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u3_b=u3_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u3_b=u3_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u3_b=u3_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u3_b=u3_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u3_b=u3_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u3_b=u3_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u3_b=u3_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u3_b=u3_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u3_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u3_b>=20)
+                        begin
+                            assign u3_b=u3_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u3_b=u3_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u3_b=u3_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u3_b=u3_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u3_b=u3_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u3_b=u3_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u3_b=u3_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u3_b=u3_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u3_b=u3_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u3_b=u3_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u3_b=u3_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u3_b=u3_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u3_b=u3_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u3_b=u3_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u3_b=u3_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u3_b=u3_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u3_b=u3_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u3_b>=15)
+                        begin
+                            assign u3_b=u3_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u3_b=u3_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+      end // if user
+        
+		if (user==1 && user_pin==u4_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u4_b=u4_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u4_b=u4_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u4_b=u4_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u4_b=u4_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u4_b=u4_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u4_b=u4_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u4_b=u4_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u4_b=u4_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u4_b=u4_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u4_b=u4_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u4_b=u4_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u4_b=u4_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u4_b=u4_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u4_b=u4_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u4_b=u4_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u4_b=u4_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u4_b=u4_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u4_b=u4_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u4_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u4_b>=20)
+                        begin
+                            assign u4_b=u4_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u4_b=u4_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u4_b=u4_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u4_b=u4_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u4_b=u4_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u4_b=u4_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u4_b=u4_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u4_b=u4_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u4_b=u4_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u4_b=u4_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u4_b=u4_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u4_b=u4_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u4_b=u4_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u4_b=u4_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u4_b=u4_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u4_b=u4_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u4_b=u4_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u4_b>=15)
+                        begin
+                            assign u4_b=u4_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u4_b=u4_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+      end // if user
+     if (user==1 && user_pin==u5_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u5_b=u5_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u5_b=u5_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u5_b=u5_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u5_b=u5_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u5_b=u5_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u5_b=u5_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u5_b=u5_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u5_b=u5_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u5_b=u5_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u5_b=u5_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u5_b=u5_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u5_b=u5_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u5_b=u5_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u5_b=u5_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u5_b=u5_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u5_b=u5_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u5_b=u5_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u5_b=u5_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u5_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u5_b>=20)
+                        begin
+                            assign u5_b=u5_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u5_b=u5_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u5_b=u5_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u5_b=u5_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u5_b=u5_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u5_b=u5_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u5_b=u5_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u5_b=u5_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u5_b=u5_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u5_b=u5_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u5_b=u5_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u5_b=u5_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u5_b=u5_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u5_b=u5_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u5_b=u5_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u5_b=u5_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u5_b=u5_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u5_b>=15)
+                        begin
+                            assign u5_b=u5_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u5_b=u5_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+      end // if user    
+          if (user==1 && user_pin==u6_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u6_b=u6_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u6_b=u6_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u6_b=u6_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u6_b=u6_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u6_b=u6_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u6_b=u6_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u6_b=u6_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u6_b=u6_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u6_b=u6_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u6_b=u6_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u6_b=u6_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u6_b=u6_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u6_b=u6_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u6_b=u6_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u6_b=u6_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u6_b=u6_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u6_b=u6_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u6_b=u6_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u6_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u6_b>=20)
+                        begin
+                            assign u6_b=u6_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u6_b=u6_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u6_b=u6_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u6_b=u6_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u6_b=u6_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u6_b=u6_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u6_b=u6_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u6_b=u6_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u6_b=u6_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u6_b=u6_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u6_b=u6_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u6_b=u6_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u6_b=u6_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u6_b=u6_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u6_b=u6_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u6_b=u6_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u6_b=u6_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u6_b>=15)
+                        begin
+                            assign u6_b=u6_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u6_b=u6_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+      end // if user
+  if (user==1 && user_pin==u7_pin)
+		  begin
+          if(reset==0)
+			begin
+			current_state=S0;
+             next_state=S0;
+              {product_select,delivery}=7'b0000000;
+			end
+		  else
+			begin
+				current_state=next_state;		
+				
+              if(w)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u7_b=u7_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u7_b=u7_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u7_b=u7_b;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u7_b=u7_b+30;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u7_b=u7_b+80;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u7_b=u7_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u7_b=u7_b+35;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u7_b=u7_b+85;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S20;
+                    assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S20;
+                   	assign u7_b=u7_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S20;
+                    assign u7_b=u7_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S20;
+                    assign u7_b=u7_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+10;
+					product_select=0;
+					delivery=0;
+					end
+					
+				S15:if(tk_5==1)
+					begin
+					next_state=S20;
+                    assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else if(tk_10==1)
+					begin
+					next_state=S0;
+				    assign u7_b=u7_b+5;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+				    assign u7_b=u7_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+				    assign u7_b=u7_b+65;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+				    assign u7_b=u7_b+115;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else 
+					begin
+					next_state=S0;
+				    assign u7_b=u7_b+15;
+					product_select=0;
+					delivery=0;
+					end
+					
+              S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                    assign u7_b=u7_b+30;
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u7_b=u7_b+80;
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                   //assign t1=u7_b;
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u7_b>=20)
+                        begin
+                            assign u7_b=u7_b-20;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u7_b=u7_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//w
+          else if(c)
+                begin
+                  if(manual)
+                 begin
+                case(current_state)
+                 
+                    S0: if(tk_5==1)
+					begin
+					next_state=S5;
+                    assign u7_b=u7_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S10;
+                   	assign u7_b=u7_b; //
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S20; 
+                    assign u7_b=u7_b+5;  //
+					product_select=1;
+					delivery=1;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S50;  
+                   	assign u7_b=u7_b+35;//
+					product_select=1;
+					delivery=1;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S100;
+                    assign u7_b=u7_b+85;//
+					product_select=1;
+					delivery=1;
+                    end
+                  
+                    else
+                    begin
+                    next_state=S0; 
+                    assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+                   	end
+						
+				S5: if(tk_5==1)
+					begin
+					next_state=S10;
+			    	assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_10==1)
+				    begin
+					next_state=S15;
+				   	assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+				    begin
+					next_state=S0;
+				    assign u7_b=u7_b+10;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                   	else if(tk_50==1)
+				   	begin
+					next_state=S0;
+				    assign u7_b=u7_b+55;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+				    begin
+					next_state=S0;
+				    assign u7_b=u7_b+105;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+				S10:if(tk_5==1)
+					begin
+					next_state=S15;
+				    assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S15;
+                    assign u7_b=u7_b;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_20==1)
+					begin
+					next_state=S0;
+                   	assign u7_b=u7_b+15;
+					product_select=1;
+					delivery=1;
+					end
+                  
+                    else if(tk_50==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+60;
+					product_select=0;
+					delivery=0;
+					end
+                  
+                    else if(tk_100==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+110;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+10;
+					product_select=0;
+					delivery=0;
+					end
+									
+      S15,S20,S50,S100:if(tk_5==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+5;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_10==1)
+					begin
+					next_state=S0;
+                    assign u7_b=u7_b+10;
+					product_select=0;
+					delivery=0;
+					end
+						
+					else if(tk_20==1)
+					begin
+					next_state=S0; 
+                    assign u7_b=u7_b+20;
+					product_select=0;
+					delivery=0;				   
+                    end
+			   			
+			        else if(tk_50==1)
+					begin
+                    next_state=S0;  
+                    assign u7_b=u7_b+50;
+					product_select=0;
+					delivery=0;
+					end
+						
+                    else if(tk_100==1)
+                    begin
+                    next_state=S0;
+                    assign u7_b=u7_b+100;
+					product_select=0;
+					delivery=0;
+                    end
+                  
+                  
+                 	else
+                    begin
+                    next_state=S0;
+                    assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;
+                    end
+           
+                  
+		       default: 
+                 	begin
+					next_state=S0;
+					assign u7_b=u7_b;
+					product_select=0;
+					delivery=0;          
+                    end
+						
+				endcase
+                 end //manual
+             
+                  else if( digital ==1)
+                    begin
+                      if(u7_b>=15)
+                        begin
+                            assign u7_b=u7_b-15;
+                            product_select=1;
+	                        delivery=1;
+                        end
+                      
+                      else
+                        begin $display("Insufficient Balance. Please Try Manually"); 
+                        product_select=0;
+	                        delivery=0;
+                        end
+                    end
+                 
+                  else if(digital==0)
+                begin
+                  assign u7_b=u7_b;
+                         product_select=0;
+	                     delivery=0;
+                 end //digital 0
+                  
+                    
+              end//c
+          end//reset
+      end // if user  
+          
+        end   //always  
+		
+endmodule
+					

@@ -1,0 +1,120 @@
+// Code your testbench here
+// or browse Examples
+
+module Project_Vending_tb;
+  reg clk,reset,tk_5,tk_10,tk_20,tk_50,tk_100,w,c,guest,user,manual,digital;
+  reg [15:0]user_pin;
+  wire return_tk_5,return_tk_10,return_tk_20,return_tk_50,return_tk_100,product_select,delivery;
+  wire [2:0]next_state;
+  wire [2:0] current_state;
+  wire[15:0]u1_b,u2_b,u3_b,u4_b,u5_b,u6_b,u7_b;
+ 
+  Project_Vending uut(
+    .clk(clk),
+    .reset(reset),
+    .tk_5(tk_5),
+    .tk_10(tk_10),
+    .tk_20(tk_20),
+    .tk_50(tk_50),
+    .tk_100(tk_100),
+    .w(w),
+    .c(c),
+    .return_tk_5(return_tk_5),
+    .return_tk_10(return_tk_10),
+    .return_tk_20(return_tk_20),
+    .return_tk_50(return_tk_50),
+    .return_tk_100(return_tk_100),
+    .product_select(product_select),
+    .delivery(delivery),
+    .next_state(next_state),
+    .current_state(current_state),
+    .guest(guest),
+    .user_pin(user_pin),
+    .user(user),
+    .manual(manual),
+    .digital(digital),
+    .u1_b(u1_b),
+    .u2_b(u2_b),
+    .u3_b(u3_b),
+    .u4_b(u4_b),
+    .u5_b(u5_b),
+    .u6_b(u6_b),
+    .u7_b(u7_b)
+  );
+
+  
+  initial begin
+ // Dump waves
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+
+    clk = 0;
+    reset=0;
+
+    
+    guest=0;
+    user=1;
+    
+    user_pin=16'd8865;
+    
+    c=0;
+    w=1;
+    
+    manual=0;
+  
+    tk_5=0;
+    tk_10=0;
+    tk_20=0;
+    tk_50=0;
+    tk_100=0;
+    
+    #10 clk=~clk; //1
+     
+    #10 clk=~clk; //0
+     reset=1;
+     #10 clk=~clk; //1
+     
+    #10 clk=~clk; //0
+   
+    #10 clk=~clk; //1
+  
+    #10 clk=~clk; //0
+ 
+   
+    #10 clk=~clk;//1 
+     
+    #10 clk=~clk;//0
+    digital=1;
+     
+    #10 clk=~clk; //1 
+    #10 clk=~clk;//0
+    digital=0;
+    
+    #10 clk=~clk;//1 
+    #10 clk=~clk;//0
+     
+   
+    #10 clk=~clk;//1 
+     
+    #10 clk=~clk;//0
+     
+ 
+    #10 clk=~clk;//1
+    #10 clk=~clk;//0
+  
+    #10 clk=~clk;//1
+    #10 clk=~clk;//0
+    
+
+     
+    #10 clk=~clk; //1 
+   #10 clk=~clk;//0
+   
+
+    #10 clk=~clk; //1 
+   #10 clk=~clk;//0
+    #10 clk=~clk; //1 
+   #10 clk=~clk;//0
+    
+  end
+endmodule
